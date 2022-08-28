@@ -34,6 +34,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  # State management
+  provider:
+
+  # toast
+  fluttertoast: ^8.0.9
+
+  # percent indicator
+  percent_indicator: ^4.2.2
+
+  # icon
+  eva_icons_flutter:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
