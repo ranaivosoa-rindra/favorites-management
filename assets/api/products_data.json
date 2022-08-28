@@ -1,0 +1,49 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "heineken",
+      "image": "../images/heineken_image.jpg",
+      "manufacturer": "Heineken N.V. Heineken",
+      "Founded": "1864",
+      "age": 158,
+      "origin": "Amsterdam"
+    },
+    {
+      "id": 2,
+      "title": "kingfisher",
+      "image": "../images/kingfisher_image.jpg",
+      "manufacturer": "United Breweries Group",
+      "Founded": "1857",
+      "age": 165,
+      "origin": "Bangalore"
+    },
+    {
+      "id": 3,
+      "title": "kings",
+      "image": "../images/kings_image.jpg",
+      "manufacturer": "Philip DiFonzo",
+      "Founded": "2002",
+      "age": 20,
+      "origin": "Nobleton"
+    },
+    {
+      "id": 4,
+      "title": "lion beer",
+      "image": "../images/lion-beer_image.jpg",
+      "manufacturer": "Carlsberg Group",
+      "Founded": "1881",
+      "age": 141,
+      "origin": "Biyagama"
+    },
+    {
+      "id": 5,
+      "title": "tuborg",
+      "image": "../images/tuborg_image.jpg",
+      "manufacturer": "Carlsberg Group",
+      "Founded": "1880",
+      "age": 142,
+      "origin": "Copenhagen"
+    }
+  ]
+}
