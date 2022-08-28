@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../model/product.dart';
+
 class ProductFeed extends StatefulWidget {
   const ProductFeed({Key? key}) : super(key: key);
 
@@ -14,13 +16,14 @@ class ProductFeed extends StatefulWidget {
 }
 
 class _ProductFeedState extends State<ProductFeed> {
-  late List _products;
+  // late List _products;
+  Future<List<Product>> __future = _readJsonProducts();
 
   @override
   void initState() {
     super.initState();
-    _products = [];
-    _getProducts();
+    // _products = [];
+    // _getProducts();
   }
 
   Future<void> _getProducts() async {
@@ -29,8 +32,15 @@ class _ProductFeedState extends State<ProductFeed> {
 
     final data = await json.decode(jsonData);
     setState(() {
-      _products = data["products"];
+      // _products = data["products"];
     });
+  }
+
+  static Future<List<Product>> _readJsonProducts() async {
+    final jsonData =
+        await rootBundle.loadString("assets/api/products_data.json");
+    final list = json.decode(jsonData) as List<dynamic>;
+    return list.map((e) => Product.fromJson(e)).toList();
   }
 
   @override
@@ -92,10 +102,25 @@ class _ProductFeedState extends State<ProductFeed> {
           ),
 
           // Feedlist
-          _products.isNotEmpty
-              ? Expanded(
+          FutureBuilder(
+              future: __future,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: Text("Loading..."),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(snapshot.error.toString()),
+                  );
+                }
+
+                var products = snapshot.requireData as List<Product>;
+
+                return Expanded(
                   child: ListView.builder(
-                    itemCount: _products.length,
+                    itemCount: products.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
@@ -124,7 +149,7 @@ class _ProductFeedState extends State<ProductFeed> {
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
                                               child: Image.asset(
-                                                _products[index]["ownerImage"],
+                                                products[index].ownerImage!,
                                                 width: 70,
                                                 height: 70,
                                               ),
@@ -143,7 +168,7 @@ class _ProductFeedState extends State<ProductFeed> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    _products[index]["owner"],
+                                                    products[index].owner!,
                                                     style: TextStyle(
                                                       fontSize: 22,
                                                       fontWeight:
@@ -151,8 +176,7 @@ class _ProductFeedState extends State<ProductFeed> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    _products[index]
-                                                        ["published"],
+                                                    products[index].published!,
                                                     style: TextStyle(
                                                       color: Colors.grey,
                                                       fontSize: 13,
@@ -174,11 +198,9 @@ class _ProductFeedState extends State<ProductFeed> {
                                           animation: true,
                                           animationDuration: 1200,
                                           lineWidth: 7.0,
-                                          percent:
-                                              _products[index]["grade"] / 100,
+                                          percent: products[index].grade! / 100,
                                           center: Text(
-                                            _products[index]["grade"]
-                                                .toString(),
+                                            products[index].grade.toString(),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 30.0,
@@ -201,7 +223,7 @@ class _ProductFeedState extends State<ProductFeed> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 5.0),
                                   child: Text(
-                                    _products[index]["title"],
+                                    products[index].title!,
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w500,
@@ -211,9 +233,9 @@ class _ProductFeedState extends State<ProductFeed> {
 
                                 // Product manufacuturer and foundation data
                                 Text(
-                                  _products[index]["manufacturer"] +
+                                  products[index].manufacturer! +
                                       " - " +
-                                      _products[index]["founded"],
+                                      products[index].founded!,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -225,13 +247,13 @@ class _ProductFeedState extends State<ProductFeed> {
                                 Row(
                                   children: [
                                     Image.asset(
-                                      _products[index]["countryLogo"],
+                                      products[index].countryLogo!,
                                       height: 50,
                                       width: 40,
                                     ),
                                     Text(
-                                      " ${_products[index]["age"]} ans  " +
-                                          _products[index]["alcoolPercents"],
+                                      " ${products[index].age!} ans  " +
+                                          products[index].alcoolPercents!,
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
@@ -245,7 +267,7 @@ class _ProductFeedState extends State<ProductFeed> {
                                 Align(
                                   alignment: Alignment.center,
                                   child: Image.asset(
-                                    _products[index]["image"],
+                                    products[index].image!,
                                     width: 250,
                                     height: 200,
                                   ),
@@ -302,8 +324,8 @@ class _ProductFeedState extends State<ProductFeed> {
                       );
                     },
                   ),
-                )
-              : Center(child: Text("Data not found")),
+                );
+              }),
         ],
       ),
     );
