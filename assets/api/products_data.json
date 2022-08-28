@@ -7,7 +7,9 @@
       "manufacturer": "Heineken N.V. Heineken",
       "Founded": "1864",
       "age": 158,
-      "origin": "Amsterdam"
+      "origin": "Amsterdam",
+      "countryLogo": "../icons/netherlands.png",
+      "grade": 70
     },
     {
       "id": 2,
@@ -16,7 +18,9 @@
       "manufacturer": "United Breweries Group",
       "Founded": "1857",
       "age": 165,
-      "origin": "Bangalore"
+      "origin": "Bangalore",
+      "countryLogo": "../icons/india.png",
+      "grade": 88
     },
     {
       "id": 3,
@@ -25,7 +29,9 @@
       "manufacturer": "Philip DiFonzo",
       "Founded": "2002",
       "age": 20,
-      "origin": "Nobleton"
+      "origin": "Nobleton",
+      "countryLogo": "../icons/canada.png",
+      "grade": 53
     },
     {
       "id": 4,
@@ -34,7 +40,9 @@
       "manufacturer": "Carlsberg Group",
       "Founded": "1881",
       "age": 141,
-      "origin": "Biyagama"
+      "origin": "Biyagama",
+      "countryLogo": "../icons/sri-lanka.png",
+      "grade": 27
     },
     {
       "id": 5,
@@ -43,7 +51,9 @@
       "manufacturer": "Carlsberg Group",
       "Founded": "1880",
       "age": 142,
-      "origin": "Copenhagen"
+      "origin": "Copenhagen",
+      "countryLogo": "../icons/denmark.png",
+      "grade": 74
     }
   ]
 }
