@@ -129,9 +129,15 @@ class _ProductFeedState extends State<ProductFeed> {
                       );
                     }
 
-                    return FeedList(
-                        dataCount: _productsDisplay.length,
-                        data: _productsDisplay);
+                    final data = snapshot.requireData as List<Product>;
+
+                    if (query == "") {
+                      return FeedList(dataCount: data.length, data: data);
+                    } else {
+                      return FeedList(
+                          dataCount: _productsDisplay.length,
+                          data: _productsDisplay);
+                    }
                   }),
             ],
           ),
