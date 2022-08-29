@@ -14,4 +14,4 @@ The main.yml file allows me and anyone who have this SECRET_TOKEN as a token to 
 
     - Share feature: So when you click on the button , the social media I have used is gmail, when you click on its icon, you're able to share the product with his name.
 
-    # Note: You need to wait some time before getting the product to the addresse (Mine it takes up to 15mn to 30mn) might depend to your internet connection too.
+    # Note: You need to wait some time before getting the product to the addresse (Mine it takes up to 5mn to 10mn) might depend to your internet connection too. Also, apparantly it looks like one user can send/share only 2 products.

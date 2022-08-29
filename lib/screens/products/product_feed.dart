@@ -2,11 +2,10 @@
 
 import 'dart:convert';
 import 'package:favorites_management/screens/products/feedlist.dart';
+import 'package:favorites_management/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import '../../model/product.dart';
-import '../../providers/bookmark.provider.dart';
 import '../../widgets/navigation_drawer.dart';
 
 class ProductFeed extends StatefulWidget {
@@ -17,8 +16,14 @@ class ProductFeed extends StatefulWidget {
 }
 
 class _ProductFeedState extends State<ProductFeed> {
-  // late List _products;
-  Future<List<Product>> __future = _readJsonProducts();
+  final TextEditingController inputController = TextEditingController();
+
+  // for searching
+  late String query;
+  List<Product> _products = [];
+  List<Product> _productsDisplay = [];
+
+  Future<List<Product>> _future = _readJsonProducts();
 
   static Future<List<Product>> _readJsonProducts() async {
     final jsonData =
@@ -27,94 +32,109 @@ class _ProductFeedState extends State<ProductFeed> {
     return list.map((e) => Product.fromJson(e)).toList();
   }
 
+  void searchProduct(String value) {
+    query = value.toLowerCase();
+    setState(() {
+      _productsDisplay = _products.where((element) {
+        var sTitle = element.title.toLowerCase();
+        var sManufacturer = element.manufacturer.toLowerCase();
+        var sAlcoolPercents = element.alcoolPercents.toLowerCase();
+        return sTitle.contains(query) ||
+            sManufacturer.contains(query) ||
+            sAlcoolPercents.contains(query) ||
+            sAlcoolPercents.contains(query);
+      }).toList();
+    });
+  }
+
+  @override
+  void initState() {
+    inputController.text = "";
+    query = "";
+    _readJsonProducts().then((value) {
+      setState(() {
+        _products.addAll(value);
+        _productsDisplay = _products;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    inputController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Image.asset(
-          "assets/icons/whisky.png",
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: Image.asset(
+            "assets/icons/whisky.png",
+          ),
+          title: Text("IndexRHUM"),
         ),
-        title: Text("IndexRHUM"),
-      ),
-      endDrawer: NavigationDrawer(),
-      body: Container(
-        color: Colors.grey[200],
-        child: Column(
-          children: [
-            // Header: text + search bar
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(15.0),
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                alignment: WrapAlignment.spaceBetween,
-                children: [
-                  // text
-                  Text(
-                    "communité".toUpperCase(),
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-
-                  // search bar
-                  SizedBox(
-                    width: 250,
-                    height: 50,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Icon(
-                            Icons.search,
-                            size: 19,
-                          ),
-                        ),
-                        hintText: "ID, Distillerie, pays",
-                        hintStyle: TextStyle(fontSize: 16),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black, width: 1),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          borderSide: BorderSide(color: Colors.black, width: 1),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          borderSide: BorderSide(color: Colors.black, width: 1),
-                        ),
+        endDrawer: NavigationDrawer(),
+        body: Container(
+          color: Colors.grey[200],
+          child: Column(
+            children: [
+              // Header: text + search bar
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(15.0),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.spaceBetween,
+                  children: [
+                    // text
+                    Text(
+                      "communité".toUpperCase(),
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
-                      style: const TextStyle(fontSize: 16),
                     ),
-                  ),
-                ],
+
+                    // search bar
+                    SizedBox(
+                      width: 250,
+                      height: 50,
+                      child: SearchBar(
+                        controller: inputController,
+                        onChange: searchProduct,
+                        hintText: 'Nom , farbicant, %alcool',
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            // Feedlist
-            FutureBuilder(
-                future: __future,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: Text("Loading..."),
-                    );
-                  }
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(snapshot.error.toString()),
-                    );
-                  }
+              // Feedlist
+              FutureBuilder(
+                  future: _future,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(snapshot.error.toString()),
+                      );
+                    }
 
-                  var products = snapshot.requireData as List<Product>;
-                  final provider =
-                      Provider.of<BookmarkProvider>(context, listen: false);
-
-                  return FeedList(dataCount: products.length, data: products);
-                }),
-          ],
+                    return FeedList(
+                        dataCount: _productsDisplay.length,
+                        data: _productsDisplay);
+                  }),
+            ],
+          ),
         ),
       ),
     );
