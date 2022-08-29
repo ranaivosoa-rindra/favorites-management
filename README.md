@@ -6,6 +6,22 @@ A test project.
 
 Versions used the project: Flutter 3.0.5 and Dart 2.17.6
 
+If you want to run the project in local, then run those commands:
+
+    - flutter clean
+
+    - flutter pub get
+
+    - flutter upgrade
+
+After you downloaded the .apk file from github in this link, (get the latest version):
+
+    -  https://github.com/ranaivosoa-rindra/favorites-management/releases/
+
+You can try out and use the application on your device either you use emulator or real device.
+
+Beside that , using the same link , you can get the source code (.zip and tar.gz) file.
+
 The main.yml file allows me and anyone who have this SECRET_TOKEN as a token to make the github workflow works.
 
     - You can check out the list of products when you first open the app, and use the drawer in order to navigate between screens.
