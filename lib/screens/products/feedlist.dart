@@ -1,10 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, depend_on_referenced_packages, unnecessary_null_comparison, unused_local_variable, use_build_context_synchronously, avoid_print, no_leading_underscores_for_local_identifiers, unused_element, unused_field, prefer_final_fields, prefer_interpolation_to_compose_strings
 
+import 'dart:io';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:favorites_management/utils/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../model/product.dart';
 import '../../providers/bookmark.provider.dart';
 
@@ -20,6 +25,18 @@ class FeedList extends StatefulWidget {
 
 class _FeedListState extends State<FeedList> {
   late List items;
+
+  Future share(String productName, String image) async {
+    final bytes = await rootBundle.load(image);
+    final list = bytes.buffer.asUint8List();
+    final tempDir = await getTemporaryDirectory();
+    final file = await File('${tempDir.path}/image.jpg').create();
+    file.writeAsBytesSync(list);
+
+    Share.shareFiles([(file.path)], text: productName);
+
+    showToast("Shared ✔️");
+  }
 
   @override
   void initState() {
@@ -207,7 +224,8 @@ class _FeedListState extends State<FeedList> {
                         IconButton(
                           iconSize: 28,
                           splashRadius: 30,
-                          onPressed: () {},
+                          onPressed: () => share(widget.data[index].title,
+                              widget.data[index].image),
                           icon: Icon(
                             Icons.share,
                           ),
