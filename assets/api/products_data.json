@@ -12,7 +12,8 @@
     "alcoolPercents": "61.6%",
     "owner": "Pers 2",
     "ownerImage": "assets/images/pers-2.jpg",
-    "published": "5 heures"
+    "published": "5 heures",
+    "favorite": false
   },
   {
     "id": 2,
@@ -27,7 +28,8 @@
     "alcoolPercents": "50%",
     "owner": "Pers 2",
     "ownerImage": "assets/images/pers-2.jpg",
-    "published": "1 heures"
+    "published": "1 heures",
+    "favorite": false
   },
   {
     "id": 3,
@@ -42,7 +44,8 @@
     "alcoolPercents": "40%",
     "owner": "Pers 4",
     "ownerImage": "assets/images/pers-4.jpeg",
-    "published": "2 jours"
+    "published": "2 jours",
+    "favorite": false
   },
   {
     "id": 4,
@@ -57,7 +60,8 @@
     "alcoolPercents": "37%",
     "owner": "Pers 1",
     "ownerImage": "assets/images/pers-1.jpeg",
-    "published": "19 heures"
+    "published": "19 heures",
+    "favorite": false
   },
   {
     "id": 5,
@@ -72,6 +76,7 @@
     "alcoolPercents": "43%",
     "owner": "Pers 3",
     "ownerImage": "assets/images/pers-3.jpg",
-    "published": "7 jours"
+    "published": "7 jours",
+    "favorite": false
   }
 ]
