@@ -33,3 +33,7 @@ The main.yml file allows me and anyone who have this SECRET_TOKEN as a token to 
     # Note: You need to wait some time before getting the product to the addresse (Mine it takes up to 5mn to 10mn) might depend to your internet connection too. Also, apparantly it looks like one user can send/share only 2 products.
 
     - Search feature: you can search in the search bar by the name of the product, its alcoolPercent or its manufacturer (accorinding to the listed data in the products_data.json).
+
+The initial apk, that I released may not work with other device, although I created a new one , in my latest release
+
+- https://github.com/ranaivosoa-rindra/favorites-management/releases/
